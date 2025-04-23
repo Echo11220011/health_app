@@ -1,0 +1,48 @@
+{
+	"pages": [ 
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "健康旅程",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "健康旅程",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#6654e0",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/icon/home.png",
+				"selectedIconPath": "static/icon/home-active.png"
+			},
+			{
+				"pagePath": "pages/index/index",
+				"text": "进度",
+				"iconPath": "static/icon/progress.png",
+				"selectedIconPath": "static/icon/progress-active.png"
+			},
+			{
+				"pagePath": "pages/index/index",
+				"text": "奖励",
+				"iconPath": "static/icon/rewards.png",
+				"selectedIconPath": "static/icon/rewards-active.png"
+			},
+			{
+				"pagePath": "pages/index/index",
+				"text": "我的",
+				"iconPath": "static/icon/profile.png",
+				"selectedIconPath": "static/icon/profile-active.png"
+			}
+		]
+	}
+}

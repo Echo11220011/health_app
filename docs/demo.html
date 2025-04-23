@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Goals Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.5s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        .habit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .tab-active {
+            position: relative;
+        }
+        
+        .tab-active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            border-radius: 3px;
+            background-color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="max-w-md mx-auto pb-20">
+    <!-- Header -->
+    <header class="sticky top-0 z-10 bg-white shadow-sm">
+        <div class="px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                    <i class="fas fa-user text-indigo-600"></i>
+                </div>
+                <span class="font-medium">Hello, User!</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                    <i class="fas fa-bell text-gray-600"></i>
+                </button>
+                <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                    <i class="fas fa-cog text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-4">
+        <!-- Stats Overview -->
+        <section class="mt-4 mb-6">
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg">
+                <h2 class="text-xl font-bold mb-4">Your Health Journey</h2>
+                <div class="flex justify-between">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold">87%</div>
+                        <div class="text-xs opacity-80">Completion</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold">24</div>
+                        <div class="text-xs opacity-80">Day Streak</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold">12</div>
+                        <div class="text-xs opacity-80">Goals</div>
+                    </div>
+                </div>
+                <div class="mt-4 h-2 bg-white bg-opacity-20 rounded-full">
+                    <div class="h-full bg-white rounded-full" style="width: 87%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs Navigation -->
+        <section class="mb-6">
+            <div class="flex justify-around border-b border-gray-200 pb-2">
+                <button id="exercise-tab" class="tab-active font-medium text-indigo-600 px-4 py-2">Exercise</button>
+                <button id="diet-tab" class="font-medium text-gray-500 px-4 py-2">Diet</button>
+                <button id="wellness-tab" class="font-medium text-gray-500 px-4 py-2">Wellness</button>
+            </div>
+        </section>
+
+        <!-- Exercise Tab Content -->
+        <section id="exercise-content" class="tab-content">
+            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                <i class="fas fa-running mr-2 text-indigo-500"></i> Today's Workout
+            </h3>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white rounded-xl p-4 shadow-sm flex items-center">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-fire text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-500">Calories</div>
+                        <div class="font-bold">450 <span class="text-xs text-gray-500">/ 600 kcal</span></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-4 shadow-sm flex items-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-heartbeat text-blue-600"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-gray-500">Heart Rate</div>
+                        <div class="font-bold">112 <span class="text-xs text-gray-500">bpm</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <h4 class="text-md font-medium mb-3">Your Exercise Goals</h4>
+            
+            <div class="space-y-4">
+                <!-- Exercise Goal 1 -->
+                <div class="habit-card bg-white rounded-xl p-4 shadow-sm transition-all duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-walking text-green-600"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-medium">10,000 Steps</h5>
+                                <p class="text-xs text-gray-500">Daily walking goal</p>
+                            </div>
+                        </div>
+                        <div class="relative w-12 h-12">
+                            <svg class="w-full h-full" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#e2e8f0" stroke-width="3"></circle>
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="25"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center text-xs font-bold">75%</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">7,500 steps today</span>
+                        <button class="text-xs bg-green-100 text-green-800 px-3 py-1 rounded-full">Log Activity</button>
+                    </div>
+                </div>
+                
+                <!-- Exercise Goal 2 -->
+                <div class="habit-card bg-white rounded-xl p-4 shadow-sm transition-all duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-dumbbell text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-medium">Strength Training</h5>
+                                <p class="text-xs text-gray-500">3x per week</p>
+                            </div>
+                        </div>
+                        <div class="relative w-12 h-12">
+                            <svg class="w-full h-full" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#e2e8f0" stroke-width="3"></circle>
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="66"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center text-xs font-bold">2/3</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">2 sessions this week</span>
+                        <button class="text-xs bg-purple-100 text-purple-800 px-3 py-1 rounded-full">Complete</button>
+                    </div>
+                </div>
+                
+                <!-- Exercise Goal 3 -->
+                <div class="habit-card bg-white rounded-xl p-4 shadow-sm transition-all duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-swimming-pool text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-medium">Swimming</h5>
+                                <p class="text-xs text-gray-500">30 min, 2x week</p>
+                            </div>
+                        </div>
+                        <div class="relative w-12 h-12">
+                            <svg class="w-full h-full" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#e2e8f0" stroke-width="3"></circle>
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="50"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center text-xs font-bold">1/2</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">1 session this week</span>
+                        <button class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Log Swim</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="mt-6 w-full py-3 bg-indigo-100 text-indigo-700 rounded-xl font-medium flex items-center justify-center">
+                <i class="fas fa-plus mr-2"></i> Add Exercise Goal
+            </button>
+        </section>
+
+        <!-- Diet Tab Content (Hidden by default) -->
+        <section id="diet-content" class="tab-content hidden">
+            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                <i class="fas fa-utensils mr-2 text-amber-500"></i> Today's Nutrition
+            </h3>
+            
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                <div class="bg-white rounded-xl p-3 shadow-sm text-center">
+                    <div class="text-xs text-gray-500 mb-1">Calories</div>
+                    <div class="font-bold">1,450 <span class="text-xs text-gray-500">/ 2,000</span></div>
+                    <div class="mt-1 h-1 bg-gray-100 rounded-full">
+                        <div class="h-full bg-amber-500 rounded-full" style="width: 72%"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-3 shadow-sm text-center">
+                    <div class="text-xs text-gray-500 mb-1">Protein</div>
+                    <div class="font-bold">85g <span class="text-xs text-gray-500">/ 120g</span></div>
+                    <div class="mt-1 h-1 bg-gray-100 rounded-full">
+                        <div class="h-full bg-green-500 rounded-full" style="width: 70%"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-3 shadow-sm text-center">
+                    <div class="text-xs text-gray-500 mb-1">Water</div>
+                    <div class="font-bold">1.8L <span class="text-xs text-gray-500">/ 2.5L</span></div>
+                    <div class="mt-1 h-1 bg-gray-100 rounded-full">
+                        <div class="h-full bg-blue-500 rounded-full" style="width: 72%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <h4 class="text-md font-medium mb-3">Your Nutrition Goals</h4>
+            
+            <div class="space-y-4">
+                <!-- Diet Goal 1 -->
+                <div class="habit-card bg-white rounded-xl p-4 shadow-sm transition-all duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-apple-alt text-green-600"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-medium">5 Servings of Veggies</h5>
+                                <p class="text-xs text-gray-500">Daily intake</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-1">
+                            <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs">3</div>
+                            <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs">2</div>
+                            <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-xs">0</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">2 servings remaining today</span>
+                        <button class="text-xs bg-green-100 text-green-800 px-3 py-1 rounded-full">Log Meal</button>
+                    </div>
+                </div>
+                
+                <!-- Diet Goal 2 -->
+                <div class="habit-card bg-white rounded-xl p-4 shadow-sm transition-all duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-times-circle text-red-600"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-medium">No Processed Sugar</h5>
+                                <p class="text-xs text-gray-500">Daily challenge</p>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
+                            <i class="fas fa-check text-red-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">Completed today</span>
+                        <button class="text-xs bg-gray-100 text-gray-800 px-3 py-1 rounded-full">Reset</button>
+                    </div>
+                </div>
+                
+                <!-- Diet Goal 3 -->
+                <div class="habit-card bg-white rounded-xl p-4 shadow-sm transition-all duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-glass-whiskey text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-medium">2.5L Water</h5>
+                                <p class="text-xs text-gray-500">Daily hydration</p>
+                            </div>
+                        </div>
+                        <div class="relative w-12 h-12">
+                            <svg class="w-full h-full" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#e2e8f0" stroke-width="3"></circle>
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="28"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center text-xs font-bold">72%</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">1.8L consumed today</span>
+                        <button class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full">+250ml</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="mt-6 w-full py-3 bg-amber-100 text-amber-700 rounded-xl font-medium flex items-center justify-center">
+                <i class="fas fa-plus mr-2"></i> Add Nutrition Goal
+            </button>
+        </section>
+
+        <!-- Wellness Tab Content (Hidden by default) -->
+        <section id="wellness-content" class="tab-content hidden">
+            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                <i class="fas fa-heartbeat mr-2 text-rose-500"></i> Wellness Check-in
+            </h3>
+            
+            <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                <h4 class="font-medium mb-3">How are you feeling today?</h4>
+                <div class="flex justify-between">
+                    <button class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center text-rose-500 mb-1">
+                            <i class="fas fa-frown"></i>
+                        </div>
+                        <span class="text-xs">Stressed</span>
+                    </button>
+                    <button class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-500 mb-1">
+                            <i class="fas fa-meh"></i>
+                        </div>
+                        <span class="text-xs">Neutral</span>
+                    </button>
+                    <button class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-500 mb-1">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <span class="text-xs">Good</span>
+                    </button>
+                    <button class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 mb-1">
+                            <i class="fas fa-grin-stars"></i>
+                        </div>
+                        <span class="text-xs">Great</span>
+                    </button>
+                </div>
+            </div>
+            
+            <h4 class="text-md font-medium mb-3">Your Wellness Goals</h4>
+            
+            <div class="space-y-4">
+                <!-- Wellness Goal 1 -->
+                <div class="habit-card bg-white rounded-xl p-4 shadow-sm transition-all duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-moon text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-medium">8 Hours Sleep</h5>
+                                <p class="text-xs text-gray-500">Nightly rest</p>
+                            </div>
+                        </div>
+                        <div class="relative w-12 h-12">
+                            <svg class="w-full h-full" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#e2e8f0" stroke-width="3"></circle>
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="25"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center text-xs font-bold">7.5h</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">75% of goal</span>
+                        <button class="text-xs bg-purple-100 text-purple-800 px-3 py-1 rounded-full">Log Sleep</button>
+                    </div>
+                </div>
+                
+                <!-- Wellness Goal 2 -->
+                <div class="habit-card bg-white rounded-xl p-4 shadow-sm transition-all duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-brain text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-medium">10 Min Meditation</h5>
+                                <p class="text-xs text-gray-500">Daily mindfulness</p>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fas fa-check text-blue-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">Completed today</span>
+                        <button class="text-xs bg-gray-100 text-gray-800 px-3 py-1 rounded-full">Meditate</button>
+                    </div>
+                </div>
+                
+                <!-- Wellness Goal 3 -->
+                <div class="habit-card bg-white rounded-xl p-4 shadow-sm transition-all duration-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                                <i class="fas fa-book text-green-600"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-medium">Read 30 Minutes</h5>
+                                <p class="text-xs text-gray-500">Daily reading</p>
+                            </div>
+                        </div>
+                        <div class="relative w-12 h-12">
+                            <svg class="w-full h-full" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#e2e8f0" stroke-width="3"></circle>
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="50"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center text-xs font-bold">15m</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">50% completed</span>
+                        <button class="text-xs bg-green-100 text-green-800 px-3 py-1 rounded-full">Log Reading</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="mt-6 w-full py-3 bg-rose-100 text-rose-700 rounded-xl font-medium flex items-center justify-center">
+                <i class="fas fa-plus mr-2"></i> Add Wellness Goal
+            </button>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200">
+        <div class="flex justify-around max-w-md mx-auto">
+            <a href="#" class="flex flex-col items-center justify-center py-3 px-6 text-indigo-600">
+                <i class="fas fa-home text-lg"></i>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center py-3 px-6 text-gray-500">
+                <i class="fas fa-chart-line text-lg"></i>
+                <span class="text-xs mt-1">Progress</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center py-3 px-6 text-gray-500">
+                <i class="fas fa-trophy text-lg"></i>
+                <span class="text-xs mt-1">Rewards</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center py-3 px-6 text-gray-500">
+                <i class="fas fa-user text-lg"></i>
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // Tab switching functionality
+        const exerciseTab = document.getElementById('exercise-tab');
+        const dietTab = document.getElementById('diet-tab');
+        const wellnessTab = document.getElementById('wellness-tab');
+        
+        const exerciseContent = document.getElementById('exercise-content');
+        const dietContent = document.getElementById('diet-content');
+        const wellnessContent = document.getElementById('wellness-content');
+        
+        exerciseTab.addEventListener('click', () => {
+            // Update tabs
+            exerciseTab.classList.add('tab-active', 'text-indigo-600');
+            exerciseTab.classList.remove('text-gray-500');
+            dietTab.classList.remove('tab-active', 'text-indigo-600');
+            dietTab.classList.add('text-gray-500');
+            wellnessTab.classList.remove('tab-active', 'text-indigo-600');
+            wellnessTab.classList.add('text-gray-500');
+            
+            // Update content
+            exerciseContent.classList.remove('hidden');
+            dietContent.classList.add('hidden');
+            wellnessContent.classList.add('hidden');
+        });
+        
+        dietTab.addEventListener('click', () => {
+            // Update tabs
+            dietTab.classList.add('tab-active', 'text-indigo-600');
+            dietTab.classList.remove('text-gray-500');
+            exerciseTab.classList.remove('tab-active', 'text-indigo-600');
+            exerciseTab.classList.add('text-gray-500');
+            wellnessTab.classList.remove('tab-active', 'text-indigo-600');
+            wellnessTab.classList.add('text-gray-500');
+            
+            // Update content
+            dietContent.classList.remove('hidden');
+            exerciseContent.classList.add('hidden');
+            wellnessContent.classList.add('hidden');
+        });
+        
+        wellnessTab.addEventListener('click', () => {
+            // Update tabs
+            wellnessTab.classList.add('tab-active', 'text-indigo-600');
+            wellnessTab.classList.remove('text-gray-500');
+            exerciseTab.classList.remove('tab-active', 'text-indigo-600');
+            exerciseTab.classList.add('text-gray-500');
+            dietTab.classList.remove('tab-active', 'text-indigo-600');
+            dietTab.classList.add('text-gray-500');
+            
+            // Update content
+            wellnessContent.classList.remove('hidden');
+            exerciseContent.classList.add('hidden');
+            dietContent.classList.add('hidden');
+        });
+        
+        // Animate habit cards on hover
+        const habitCards = document.querySelectorAll('.habit-card');
+        habitCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('shadow-lg');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('shadow-lg');
+            });
+        });
+    </script>
+</body>
+</html>
