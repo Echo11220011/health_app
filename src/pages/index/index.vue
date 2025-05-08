@@ -642,7 +642,7 @@ const switchTab = (tab) => {
   color: #6654e0;
 }
 
-.log-button, .complete-button, .reset-button, .add-button, .meditation-button {
+.log-button, .complete-button, .reset-button, .add-button, .sleep-log, .meditation-button, .reading-log {
   background-color: #f0f0f2;
   color: #6654e0;
   font-size: 24rpx;

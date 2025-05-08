@@ -1,15 +1,15 @@
 <script>
 export default {
-  onLaunch: function() {
-    console.log('App Launch');
+  onLaunch: function () {
+    console.log('App Launch')
   },
-  onShow: function() {
-    console.log('App Show');
+  onShow: function () {
+    console.log('App Show')
   },
-  onHide: function() {
-    console.log('App Hide');
-  }
-};
+  onHide: function () {
+    console.log('App Hide')
+  },
+}
 </script>
 
 <style>
@@ -54,7 +54,6 @@ export default {
 .icon-heart:before {
   content: "\e7df";
 }
-
 
 /* 全局样式 */
 page {
